@@ -10,6 +10,10 @@ const ImageEditor = () => {
         '/assets/emoji1.png',
         '/assets/emoji2.png',
         '/assets/emoji3.png',
+        '/assets/emoji4.png',
+        '/assets/emoji5.png',
+        '/assets/emoji6.png',
+        '/assets/emoji7.png',
         // Add more emoji paths as needed
     ];
 
