@@ -1,24 +1,22 @@
 "use client"
 import Link from "next/link";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
 import { ImageEditor } from "../components/stickerApp/sticker-adderv1";
-import useCanvas from "@/lib/hooks/useCanvas";
 
 export default function IndexPage() {
-  const [canvasRef, saveAsImage] = useCanvas(([canvas, ctx]) => {
-    // Your canvas initialization code here
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  });
+  const canvasRef = useRef<any>(null);
 
+  const saveCanvas = () => {
+    if (canvasRef.current) {
+        const link = document.createElement('a');
+        link.download = 'canvas_image.png';
+        link.href = canvasRef.current.toDataURL("image/png");
+        link.click();
+    }
+};
 
-    // Function to handle saving the canvas as an image
-    const handleSaveImage = () => {
-      saveAsImage('yippieeeee.png');
-    };
-  
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
@@ -39,8 +37,12 @@ export default function IndexPage() {
         </Link>
       </div>
       <div className="flex justify-center gap-4">
-        <ImageEditor canvasRef={canvasRef}/>
-        <button onClick={handleSaveImage} style={{ margin: 10 }}>Save Image</button>
+        <ImageEditor 
+        // ={canvasRef} 
+        />
+        <button onClick={saveCanvas} style={{ margin: 10 }}>Save Image</button>
+
+        {/* <button onClick={() => canvasRef.current && canvasRef.current.saveCanvas()} style={{ margin: 10 }}>Save Image</button> */}
       </div>
     </section>
   )
