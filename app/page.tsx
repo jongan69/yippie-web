@@ -1,35 +1,15 @@
-"use client"
-import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
-import ImageEditor from "../components/stickerApp/sticker-adder"
-
-export default function IndexPage() {
-  return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          TRILLIONS WILL <br className="hidden sm:inline" />
-          TIPPIE!!
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Welcome to the Yippie Generator
-        </p>
-        <Link
-        href={siteConfig.links.link}
-        target="_blank"
-        rel="noreferrer"
-        className={buttonVariants()}
-      >
-        YIPPIE
-      </Link>
-      </div>
-      <div className="flex justify-center gap-4">
-        <ImageEditor />
-        
-      </div>
-      
-    </section>
-  )
+// Import your Client Component
+import HomePage from './home-page'
+ 
+// async function getPosts() {
+//   const res = await fetch('https://...')
+//   const posts = await res.json()
+//   return posts
+// }
+ 
+export default async function Page() {
+  // Fetch data directly in a Server Component
+//   const recentPosts = await getPosts()
+  // Forward fetched data to your Client Component
+  return <HomePage />
 }

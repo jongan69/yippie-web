@@ -27,26 +27,17 @@ export const metadata: Metadata = {
   },
 }
 
-// const inter = Inter({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-inter',
-// })
-// const inter = Inter({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-inter',
-// })
-
 interface RootLayoutProps {
-  children: React.ReactNode
+  children: any
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <Head />
+      <Head>
+        <title>YIPPIE</title>
+      </Head>
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",

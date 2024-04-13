@@ -448,6 +448,20 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-dropzone@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dropzone/-/react-dropzone-5.1.0.tgz#5e27eb0b1ccadd7964ce4d328e1926fcd1c1f1ef"
+  integrity sha512-VCdDCwSsr1MT2frsVl5p8qH+LWwUGzsaNtGkEQekHviZqK0dmTbiIp2Pzfb8lTkH4oTE2JtBbWnbuM6B4FH80A==
+  dependencies:
+    react-dropzone "*"
+
+"@types/react-rnd@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-rnd/-/react-rnd-8.0.0.tgz#aec90d5398c83b1c809a5b61a228ae47ac150136"
+  integrity sha512-k/exWCXCY3CDqyJUJeny2SgsfWslWh6XU32/S0YJH6p4E8q2FK89WAPzdG0AECA2k95UC75YKErDRQ/IyvDz6g==
+  dependencies:
+    react-rnd "*"
+
 "@types/react@*", "@types/react@^18.2.14":
   version "18.2.77"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.77.tgz#af2f857b6a6dfb6ca89ec102ebc147b1f1616880"
@@ -2656,7 +2670,7 @@ react-draggable@4.4.5:
     clsx "^1.1.1"
     prop-types "^15.8.1"
 
-react-dropzone@^14.2.3:
+react-dropzone@*, react-dropzone@^14.2.3:
   version "14.2.3"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-14.2.3.tgz#0acab68308fda2d54d1273a1e626264e13d4e84b"
   integrity sha512-O3om8I+PkFKbxCukfIR3QAGftYXDZfOE2N1mr/7qebQJHs7U+/RSL/9xomJNpRg9kM5h9soQSdf0Gc7OHF5Fug==
@@ -2670,7 +2684,7 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-rnd@^10.4.1:
+react-rnd@*, react-rnd@^10.4.1:
   version "10.4.1"
   resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-10.4.1.tgz#9e1c3f244895d7862ef03be98b2a620848c3fba1"
   integrity sha512-0m887AjQZr6p2ADLNnipquqsDq4XJu/uqVqI3zuoGD19tRm6uB83HmZWydtkilNp5EWsOHbLGF4IjWMdd5du8Q==

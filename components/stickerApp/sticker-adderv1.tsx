@@ -1,12 +1,12 @@
+"use client"
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Rnd } from 'react-rnd';
-import './ImageEditor.css'; // Ensure this CSS file doesn't contain conflicting styles
+import './ImageEditor.css'; // Assuming you have some basic styles in this CSS file
 
-export const ImageEditor = ({ canvasRef }: any) => {
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [emojis, setEmojis] = useState([]);
-
+export const ImageEditor = () => {
+    const [uploadedImage, setUploadedImage] = useState<any>(null);
+    const [emojis, setEmojis] = useState<any>([]);
     const emojiList = [
         '/assets/emoji1.png',
         '/assets/emoji2.png',
@@ -20,17 +20,13 @@ export const ImageEditor = ({ canvasRef }: any) => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: {
-            'image/png': ['*.png'],
-            'image/jpg': ['*.jpg']
+            'image/*': "*",
         },
         onDrop: (acceptedFiles: any[]) => {
             const file = acceptedFiles[0];
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 setUploadedImage(e.target.result);
-            };
-            reader.onerror = () => {
-                console.error("Error in reading the file.");
             };
             reader.readAsDataURL(file);
         }
@@ -53,44 +49,49 @@ export const ImageEditor = ({ canvasRef }: any) => {
             {!uploadedImage ? (
                 <div {...getRootProps({ className: 'dropzone' })} style={{ height: 300, border: '2px dashed gray' }}>
                     <input {...getInputProps()} />
-                    {isDragActive ? <p>Drop the image here!</p> : <p>Drag and drop an image here, or click to select an image.</p>}
+                    {
+                        isDragActive ?
+                            <p>Drop the image!!!</p> :
+                            <p>PFP????????</p>
+                    }
                 </div>
             ) : (
-                <canvas ref={canvasRef} style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }}>
-                    <img src={uploadedImage} alt="Uploaded" style={{ display: 'none' }} />
+                <div style={{ position: 'relative', width: 'auto', height: 'auto' }}>
+                    <img src={uploadedImage} alt="Uploaded" style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }} />
                     {emojis.map((emoji: any) => (
                         <Rnd
                             key={emoji.id}
                             size={{ width: emoji.width, height: emoji.height }}
                             position={{ x: emoji.x, y: emoji.y }}
                             onDragStop={(e: any, d: { x: any; y: any; }) => {
-                                const updatedEmojis = emojis.map(el => el.id === emoji.id ? { ...el, x: d.x, y: d.y } : el);
+                                const updatedEmojis = [...emojis];
+                                updatedEmojis[emoji.id] = { ...updatedEmojis[emoji.id], x: d.x, y: d.y };
                                 setEmojis(updatedEmojis);
                             }}
-                            onResizeStop={(e: any, direction: any, ref: { style: { width: string; height: string; }; }, delta: any, position: any) => {
-                                const updatedEmojis = emojis.map(el => el.id === emoji.id ? {
-                                    ...el,
-                                    width: parseInt(ref.style.width, 10),
-                                    height: parseInt(ref.style.height, 10),
+                            onResizeStop={(e: any, direction: any, ref: { style: { width: any; height: any; }; }, delta: any, position: any) => {
+                                const updatedEmojis = [...emojis];
+                                updatedEmojis[emoji.id] = {
+                                    ...updatedEmojis[emoji.id],
+                                    width: ref.style.width,
+                                    height: ref.style.height,
                                     ...position
-                                } : el);
+                                };
                                 setEmojis(updatedEmojis);
                             }}
-                            enableResizing={{
-                                top: true, right: true, bottom: true, left: true,
-                                topRight: true, bottomRight: true, bottomLeft: true, topLeft: true
-                            }}
+                            enableResizing={{ top: true, right: true, bottom: true, left: true, topRight: true, bottomRight: true, bottomLeft: true, topLeft: true }}
                         >
                             <img src={emoji.src} alt={`Emoji`} style={{ width: '100%', height: '100%' }} />
                         </Rnd>
                     ))}
-                </canvas>
+                </div>
             )}
-            <div className="emoji-selector">
-                {emojiList.map((emoji, index) => (
-                    <img key={index} src={emoji} alt={`Emoji ${index}`} onClick={() => addEmoji(emoji)} style={{ width: 50, height: 50, cursor: 'pointer', margin: 5 }} />
-                ))}
-            </div>
+            {uploadedImage && (
+                <div className="emoji-selector">
+                    {emojiList.map((emoji, index) => (
+                        <img key={index} src={emoji} alt={`Emoji ${index}`} onClick={() => addEmoji(emoji)} style={{ width: 50, height: 50, cursor: 'pointer', margin: 5 }} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
