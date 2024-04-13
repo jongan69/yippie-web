@@ -4,13 +4,11 @@ import { Rnd } from 'react-rnd';
 import './ImageEditor.css'; // Ensure this CSS file doesn't contain conflicting styles
 
 interface ImageEditorProps {
-    canvasRef: any;
-    saveCanvas: () => void,
-    // props: any
+    canvasRef: RefObject<HTMLCanvasElement>;
 }
 
 
-export const ImageEditor: React.FC<ImageEditorProps> = (props) => {
+export const ImageEditor: React.FC<ImageEditorProps> = ({ canvasRef }: { canvasRef: React.RefObject<HTMLCanvasElement> }) => {
     const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [emojis, setEmojis] = useState<any[]>([]);
     const emojiList = [
@@ -55,10 +53,10 @@ export const ImageEditor: React.FC<ImageEditorProps> = (props) => {
     };
 
     const saveCanvas = () => {
-        if (props.canvasRef.current) {
+        if (canvasRef.current) {
             const link = document.createElement('a');
             link.download = 'canvas_image.png';
-            link.href = props.canvasRef.current.toDataURL("image/png");
+            link.href = canvasRef.current.toDataURL("image/png");
             link.click();
         }
     };
@@ -71,7 +69,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = (props) => {
                     {isDragActive ? <p>Drop the image here!</p> : <p>Drag and drop an image here, or click to select an image.</p>}
                 </div>
             ) : (
-                <canvas ref={props.canvasRef} style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }}>
+                <canvas ref={canvasRef} style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }}>
                     {emojis.map((emoji: any) => (
                         <Rnd
                             key={emoji.id}

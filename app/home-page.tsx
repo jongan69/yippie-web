@@ -10,12 +10,12 @@ export default function IndexPage() {
 
   const saveCanvas = () => {
     if (canvasRef.current) {
-        const link = document.createElement('a');
-        link.download = 'canvas_image.png';
-        link.href = canvasRef.current.toDataURL("image/png");
-        link.click();
+      const link = document.createElement('a');
+      link.download = 'canvas_image.png';
+      link.href = canvasRef.current.toDataURL("image/png");
+      link.click();
     }
-};
+  };
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -37,9 +37,7 @@ export default function IndexPage() {
         </Link>
       </div>
       <div className="flex justify-center gap-4">
-        <ImageEditor 
-        // ={canvasRef} 
-        />
+        <ImageEditor canvasRef={canvasRef} />
         <button onClick={saveCanvas} style={{ margin: 10 }}>Save Image</button>
 
         {/* <button onClick={() => canvasRef.current && canvasRef.current.saveCanvas()} style={{ margin: 10 }}>Save Image</button> */}
