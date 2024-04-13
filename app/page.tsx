@@ -25,7 +25,7 @@ export default function IndexPage() {
         YIPPIE
       </Link>
       </div>
-      <div className="flex gap-4 justify-center">
+      <div className="flex justify-center gap-4">
         <ImageEditor />
         
       </div>

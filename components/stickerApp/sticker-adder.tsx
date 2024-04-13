@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Rnd } from 'react-rnd';
+import Image from 'next/image'
 import './ImageEditor.css'; // Assuming you have some basic styles in this CSS file
 
 const ImageEditor = () => {
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const [emojis, setEmojis] = useState([]);
+    const [uploadedImage, setUploadedImage] = useState<any>(null);
+    const [emojis, setEmojis] = useState<any>([]);
     const emojiList = [
         '/assets/emoji1.png',
         '/assets/emoji2.png',
@@ -18,18 +19,20 @@ const ImageEditor = () => {
     ];
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: 'image/*',
-        onDrop: (acceptedFiles) => {
+        accept: {
+            'image/*': ['*'],
+        },
+        onDrop: (acceptedFiles: any[]) => {
             const file = acceptedFiles[0];
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = (e: any) => {
                 setUploadedImage(e.target.result);
             };
             reader.readAsDataURL(file);
         }
     });
 
-    const addEmoji = (emojiSrc) => {
+    const addEmoji = (emojiSrc: string) => {
         const newEmoji = {
             id: emojis.length,
             src: emojiSrc,
@@ -48,24 +51,24 @@ const ImageEditor = () => {
                     <input {...getInputProps()} />
                     {
                         isDragActive ?
-                            <p>Drop the image here ...</p> :
-                            <p>Drag 'n' drop an image here, or click to select an image</p>
+                            <p>Drop the image!!!</p> :
+                            <p>PFP????????</p>
                     }
                 </div>
             ) : (
                 <div style={{ position: 'relative', width: 'auto', height: 'auto' }}>
-                    <img src={uploadedImage} alt="Uploaded" style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }} />
-                    {emojis.map((emoji) => (
+                    <Image src={uploadedImage} alt="Uploaded" style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }} />
+                    {emojis.map((emoji: any) => (
                         <Rnd
                             key={emoji.id}
                             size={{ width: emoji.width, height: emoji.height }}
                             position={{ x: emoji.x, y: emoji.y }}
-                            onDragStop={(e, d) => {
+                            onDragStop={(e: any, d: { x: any; y: any; }) => {
                                 const updatedEmojis = [...emojis];
                                 updatedEmojis[emoji.id] = { ...updatedEmojis[emoji.id], x: d.x, y: d.y };
                                 setEmojis(updatedEmojis);
                             }}
-                            onResizeStop={(e, direction, ref, delta, position) => {
+                            onResizeStop={(e: any, direction: any, ref: { style: { width: any; height: any; }; }, delta: any, position: any) => {
                                 const updatedEmojis = [...emojis];
                                 updatedEmojis[emoji.id] = {
                                     ...updatedEmojis[emoji.id],
@@ -75,9 +78,9 @@ const ImageEditor = () => {
                                 };
                                 setEmojis(updatedEmojis);
                             }}
-                            enableResizing={{ top:true, right:true, bottom:true, left:true, topRight:true, bottomRight:true, bottomLeft:true, topLeft:true }}
+                            enableResizing={{ top: true, right: true, bottom: true, left: true, topRight: true, bottomRight: true, bottomLeft: true, topLeft: true }}
                         >
-                            <img src={emoji.src} alt={`Emoji`} style={{ width: '100%', height: '100%' }} />
+                            <Image src={emoji.src} alt={`Emoji`} style={{ width: '100%', height: '100%' }} />
                         </Rnd>
                     ))}
                 </div>
@@ -85,7 +88,7 @@ const ImageEditor = () => {
             {uploadedImage && (
                 <div className="emoji-selector">
                     {emojiList.map((emoji, index) => (
-                        <img key={index} src={emoji} alt={`Emoji ${index}`} onClick={() => addEmoji(emoji)} style={{ width: 50, height: 50, cursor: 'pointer', margin: 5 }} />
+                        <Image key={index} src={emoji} alt={`Emoji ${index}`} onClick={() => addEmoji(emoji)} style={{ width: 50, height: 50, cursor: 'pointer', margin: 5 }} />
                     ))}
                 </div>
             )}
