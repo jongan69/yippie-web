@@ -1,16 +1,12 @@
-import React, { useState, RefObject } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Rnd } from 'react-rnd';
 import './ImageEditor.css'; // Ensure this CSS file doesn't contain conflicting styles
 
-interface ImageEditorProps {
-    canvasRef: RefObject<HTMLCanvasElement>;
-}
-
-
-export const ImageEditor: React.FC<ImageEditorProps> = ({ canvasRef }: { canvasRef: React.RefObject<HTMLCanvasElement> }) => {
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-    const [emojis, setEmojis] = useState<any[]>([]);
+export const ImageEditor = () => {
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [emojis, setEmojis] = useState<any>([]);
+    const canvasRef = useRef(null);
     const emojiList = [
         '/assets/emoji1.png',
         '/assets/emoji2.png',
@@ -27,7 +23,7 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ canvasRef }: { canvasR
             'image/png': ['*.png'],
             'image/jpg': ['*.jpg']
         },
-        onDrop: (acceptedFiles: File[]) => {
+        onDrop: (acceptedFiles: any[]) => {
             const file = acceptedFiles[0];
             const reader = new FileReader();
             reader.onload = (e: any) => {
@@ -52,35 +48,48 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ canvasRef }: { canvasR
         setEmojis([...emojis, newEmoji]);
     };
 
-    const saveCanvas = () => {
-        if (canvasRef.current) {
-            const link = document.createElement('a');
-            link.download = 'canvas_image.png';
-            link.href = canvasRef.current.toDataURL("image/png");
-            link.click();
-        }
-    };
+    // useEffect(() => {
+    //     if (canvasRef.current && uploadedImage) {
+    //         const canvas: any = canvasRef.current;
+    //         const ctx = canvas.getContext('2d');
+    //         const image = new Image();
+    //         image.src = uploadedImage;
+    //         image.onload = () => {
+    //             canvas.width = image.width;
+    //             canvas.height = image.height;
+    //             ctx.drawImage(image, 0, 0);
+    //             emojis.forEach((emoji: { src: string; x: any; y: any; width: any; height: any; }) => {
+    //                 const emojiImage = new Image();
+    //                 emojiImage.src = emoji.src;
+    //                 emojiImage.onload = () => {
+    //                     ctx.drawImage(emojiImage, emoji.x, emoji.y, emoji.width, emoji.height);
+    //                 };
+    //             });
+    //         };
+    //     }
+    // }, [uploadedImage, emojis]);
 
     return (
         <div className="image-editor">
-            {!uploadedImage ? (
+            {!uploadedImage || !emojiList ? (
                 <div {...getRootProps({ className: 'dropzone' })} style={{ height: 300, border: '2px dashed gray' }}>
                     <input {...getInputProps()} />
                     {isDragActive ? <p>Drop the image here!</p> : <p>Drag and drop an image here, or click to select an image.</p>}
                 </div>
             ) : (
-                <canvas ref={canvasRef} style={{ display: 'block', width: '100%', maxWidth: '600px', height: 'auto' }}>
+                <>
+                    <img src={uploadedImage} alt="Uploaded" style={{ display: 'none' }} />
                     {emojis.map((emoji: any) => (
                         <Rnd
                             key={emoji.id}
                             size={{ width: emoji.width, height: emoji.height }}
                             position={{ x: emoji.x, y: emoji.y }}
                             onDragStop={(e: any, d: { x: any; y: any; }) => {
-                                const updatedEmojis = emojis.map(el => el.id === emoji.id ? { ...el, x: d.x, y: d.y } : el);
+                                const updatedEmojis = emojis.map((el: any) => el.id === emoji.id ? { ...el, x: d.x, y: d.y } : el);
                                 setEmojis(updatedEmojis);
                             }}
                             onResizeStop={(e: any, direction: any, ref: { style: { width: string; height: string; }; }, delta: any, position: any) => {
-                                const updatedEmojis = emojis.map(el => el.id === emoji.id ? {
+                                const updatedEmojis = emojis.map((el: any) => el.id === emoji.id ? {
                                     ...el,
                                     width: parseInt(ref.style.width, 10),
                                     height: parseInt(ref.style.height, 10),
@@ -93,17 +102,16 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({ canvasRef }: { canvasR
                                 topRight: true, bottomRight: true, bottomLeft: true, topLeft: true
                             }}
                         >
-                            <img src={emoji.src} alt={`Emoji`} style={{ width: '100%', height: '100%' }} />
+                            <img src={emoji.src} style={{ width: '100%', height: '100%' }} />
                         </Rnd>
                     ))}
-                </canvas>
+                </>
             )}
             <div className="emoji-selector">
                 {emojiList.map((emoji, index) => (
                     <img key={index} src={emoji} alt={`Emoji ${index}`} onClick={() => addEmoji(emoji)} style={{ width: 50, height: 50, cursor: 'pointer', margin: 5 }} />
                 ))}
             </div>
-            {uploadedImage && <button onClick={saveCanvas} style={{ margin: 10 }}>Save Image</button>}
         </div>
     );
 };
