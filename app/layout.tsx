@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+// import './styles.css'
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +25,17 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 }
+
+// const inter = Inter({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-inter',
+// })
+// const inter = Inter({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-inter',
+// })
 
 interface RootLayoutProps {
   children: React.ReactNode
