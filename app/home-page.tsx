@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
-import { ImageEditor } from "../components/stickerApp/sticker-adderv1";
+import { ImageEditor } from "../components/stickerApp/sticker-adder";
 
 export default function IndexPage() {
   const canvasRef = useRef<any>(null);
