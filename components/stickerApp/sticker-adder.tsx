@@ -19,9 +19,11 @@ export const ImageEditor = () => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: {
-            'image/png': [".png"],
-            'image/jpg': [".jpg"],
-        },
+            'image/png': [],
+            'image/jpg': [],
+            'image/webp': [],
+            'image/heic': [],
+            'image/jfif': [],
         onDrop: (acceptedFiles: any[]) => {
             const file = acceptedFiles[0];
             const reader = new FileReader();
