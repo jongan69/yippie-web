@@ -23,7 +23,8 @@ export const ImageEditor = () => {
             'image/jpg': [],
             'image/webp': [],
             'image/heic': [],
-            'image/jfif': [],
+            'image/jfif': []
+        },
         onDrop: (acceptedFiles: any[]) => {
             const file = acceptedFiles[0];
             const reader = new FileReader();
