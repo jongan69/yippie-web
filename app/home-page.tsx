@@ -3,8 +3,9 @@ import Link from "next/link";
 // import { useRef } from "react";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
+// import { ImageEditor } from "../components/stickerApp/sticker-adder";
 import dynamic from 'next/dynamic'
-const ImageEditor = dynamic(() => import('../components/stickerApp/sticker-adder').then((mod: any) => mod.default), {
+const ImageEditor = dynamic(() => import('../components/stickerApp/sticker-adder').then((mod: any) => mod.ImageEditor), {
   ssr: false,
 })
 export default function IndexPage() {
