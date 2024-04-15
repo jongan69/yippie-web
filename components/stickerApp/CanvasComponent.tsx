@@ -113,6 +113,7 @@ const CanvasComponent = (props: ICanvasComponent) => {
   return (
     <div ref={elementRef}>
       <Rnd
+        enableUserSelectHack={false}
         style={style}
         size={{ width: dimension?.width || 0, height: dimension?.height || 0 }}
         position={{ x: position?.left || 0, y: position?.top || 0 }}
