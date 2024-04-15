@@ -27,7 +27,7 @@ const TextElement = (props: ICanvasComponent) => {
 
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.getEditor().on('selection-change', function(range: any) {
+      editorRef.current.getEditor().on('selection-change', function (range: any) {
         if (range) {
           editorRef.current.focus();
         }
@@ -36,7 +36,11 @@ const TextElement = (props: ICanvasComponent) => {
   }, []);
 
   const updateEditorValue = (value: string) => {
-    actions?.updateCanvasData({ id, content: value });
+    try {
+      if (actions) actions.updateCanvasData({ id, content: value });
+    } catch (e) {
+      alert(e)
+    }
   };
 
   const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
@@ -45,7 +49,7 @@ const TextElement = (props: ICanvasComponent) => {
     toolbar: isMobile ? [
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline'],
-      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
       ['clean']
     ] : "#toolbar"
   };

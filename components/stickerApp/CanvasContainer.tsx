@@ -163,7 +163,7 @@ const CanvasContainer = () => {
   }, [handleKeyDown, handleMouseDown]);
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} style={{ touchAction: 'manipulation' }}>
       <CanvasContext.Provider value={context}>
         <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={context.actions ? context.actions.resetCanvas : null} />
         <div className="canvas-container">
