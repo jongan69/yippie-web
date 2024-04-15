@@ -60,7 +60,7 @@ export interface ICanvasContext {
 
 const CanvasContainer = () => {
   const { theme } = useTheme()
-  const canvasRef = useRef(null);
+  // const canvasRef = useRef(null);
   const [canvasData, setCanvasData] = useState<any>([]);
   const [activeSelection, setActiveSelection] = useState(new Set());
   const [enableQuillToolbar, setEnableQuillToolbar] = useState(false);
@@ -116,8 +116,8 @@ const CanvasContainer = () => {
   }, [deleteElement, selectAllElement]);
 
   const handleInteractionStart = useCallback((event: { type: string; preventDefault: () => void; }) => {
-    alert(`Dev: ${event.type}`)
-    alert(`Dev 2: ${JSON.stringify(window)}`)
+    // alert(`Dev 2: ${event.type}`)
+   
     if (event.type.startsWith('touch')) {
       event.preventDefault();
     }
@@ -127,6 +127,7 @@ const CanvasContainer = () => {
   }, []);
 
   React.useEffect(() => {
+    console.log(`Dev 1: ${(window)}`)
     const interactionStart = 'ontouchstart ' in window ? 'touchstart' : 'mousedown';
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener(interactionStart, handleInteractionStart);
@@ -146,7 +147,7 @@ const CanvasContainer = () => {
         <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} />
         <div className="canvas-container">
           {canvasData.map((canvas: React.JSX.IntrinsicAttributes & Omit<ICanvasComponent, "ref"> & React.RefAttributes<unknown>) => (
-            <CanvasComponent key={canvas.id} ref={canvasRef} {...canvas} />
+            <CanvasComponent key={canvas.id} {...canvas} />
           ))}
           <EmojiList emojis={emojis} setEmojis={setEmojis} />
         </div>

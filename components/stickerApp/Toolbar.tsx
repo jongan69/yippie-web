@@ -51,13 +51,13 @@ export default function Toolbar({ isEditEnable, resetCanvas }: IToolbarProps) {
       {isEditEnable && (
         <div id="toolbar">
           <select className="ql-font">
-            {fontList.map((font) => (
-              <option value={font}>{font}</option>
+            {fontList.map((font, index) => (
+              <option key={index} value={font}>{font}</option>
             ))}
           </select>
           <select className="ql-size">
-            {sizeList.map((size) => (
-              <option value={size}>{size}</option>
+            {sizeList.map((size, index) => (
+              <option key={index} value={size}>{size}</option>
             ))}
           </select>
           <button className="ql-bold" />

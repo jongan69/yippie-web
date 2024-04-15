@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { forwardRef, useContext } from "react";
 import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
 import "react-quill/dist/quill.snow.css";
@@ -20,10 +20,10 @@ if (Quill) {
   Quill.register({ 'formats/size': Size, 'formats/font': Font }, true);
 }
 
-const TextElement = (props: ICanvasComponent) => {
+const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id, isReadOnly } = props;
   const { actions } = useContext(CanvasContext);
-  const editorRef = useRef<any>(null);
+  // const editorRef = useRef<any>(ref);
 
   // useEffect(() => {
   //   if (editorRef.current) {
@@ -36,7 +36,7 @@ const TextElement = (props: ICanvasComponent) => {
   // }, []);
 
   const focusEditor = () => {
-    const editor = editorRef.current;
+    const editor = ref?.current;
     if (editor) {
       editor.focus(); // Focus the ReactQuill editor
     }
@@ -63,7 +63,7 @@ const TextElement = (props: ICanvasComponent) => {
   };
 
   return (
-    <div>
+    <div ref={ref}>
       {isReadOnly ? (
         <>
           <div
@@ -76,12 +76,11 @@ const TextElement = (props: ICanvasComponent) => {
           >
             {ReactHtmlParser(content || "")}
           </div>
-          {isMobile && <button onClick={focusEditor} style={{ padding: '10px' }}>Edit Text</button>}
+          {isMobile && <button onClick={focusEditor} style={{ marginTop: '10px' }}>Edit Text</button>}
         </>
       ) : (
         <>
           <ReactQuill
-            ref={editorRef}
             readOnly={isReadOnly}
             theme="snow"
             className="quill-container"
@@ -93,6 +92,6 @@ const TextElement = (props: ICanvasComponent) => {
       )}
     </div>
   );
-};
+});
 
 export default TextElement;

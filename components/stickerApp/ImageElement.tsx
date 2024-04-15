@@ -1,7 +1,7 @@
-import React, { useContext, useRef } from "react";
+import React, { forwardRef, useContext, useRef } from "react";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 
-const ImageElement = (props: ICanvasComponent) => {
+const ImageElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id } = props;
   const { actions } = useContext(CanvasContext);
   const uploadRef = useRef<HTMLInputElement>(null);
@@ -67,6 +67,7 @@ const ImageElement = (props: ICanvasComponent) => {
 
   const renderImage = () => (
     <div
+      ref={ref}
       style={{
         backgroundImage: `url(${content})`,
         backgroundSize: "contain",
@@ -78,6 +79,6 @@ const ImageElement = (props: ICanvasComponent) => {
   );
 
   return <>{!content ? renderUploadContent() : renderImage()}</>;
-};
+});
 
 export default ImageElement;

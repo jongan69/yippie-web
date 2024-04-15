@@ -25,12 +25,12 @@ const getEnableResize = (type: string): any => {
     right: true
   };
 };
-const CanvasComponent = forwardRef((props: ICanvasComponent) => {
+const CanvasComponent = (props: ICanvasComponent) => {
   const { state, actions } = useContext(CanvasContext);
-  const { ref, dimension, position, content, id, type } = props;
+  const { dimension, position, content, id, type } = props;
   const [showGrids, setShowGrids] = React.useState(false);
   const [isReadOnly, setIsReadOnly] = React.useState(true);
-  const elementRef = React.useRef<any>(ref);
+  const elementRef = React.useRef<any>(null);
   const isDragged = useRef<boolean>(false);
 
   const activeSelection = state?.activeSelection;
@@ -57,6 +57,7 @@ const CanvasComponent = forwardRef((props: ICanvasComponent) => {
     if (!Component || !id) return null;
     return (
       <Component
+        ref={elementRef}
         key={id}
         id={id}
         type={type}
@@ -142,10 +143,9 @@ const CanvasComponent = forwardRef((props: ICanvasComponent) => {
       >
         <div className="item-container">{getComponent()}</div>
       </Rnd>
-      
     </div>
   );
-});
+};
 
 export default CanvasComponent;
-CanvasComponent.displayName = 'CanvasComponent';
+// // CanvasComponent.displayName = 'CanvasComponent';
