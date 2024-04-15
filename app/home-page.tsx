@@ -4,10 +4,12 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
 // import { ImageEditor } from "../components/stickerApp/sticker-adder";
-import dynamic from 'next/dynamic'
-const ImageEditor = dynamic(() => import('../components/stickerApp/sticker-adder').then((mod: any) => mod.ImageEditor), {
-  ssr: false,
-})
+// import dynamic from 'next/dynamic'
+// const ImageEditor = dynamic(() => import('../components/stickerApp/sticker-adder').then((mod: any) => mod.ImageEditor), {
+//   ssr: false,
+// })
+
+import ParentComponent from '../components/stickerApp/CanvasContainer'
 export default function IndexPage() {
   // const canvasRef = useRef<any>(null);
 
@@ -40,10 +42,11 @@ export default function IndexPage() {
         </Link>
       </div>
       <div className="flex justify-center gap-4">
-        <ImageEditor />
+        
         {/* <button onClick={saveCanvas} style={{ margin: 10 }}>Save Image</button> */}
         {/* <button onClick={() => canvasRef.current && canvasRef.current.saveCanvas()} style={{ margin: 10 }}>Save Image</button> */}
       </div>
+      <ParentComponent />
     </section>
   )
 }
