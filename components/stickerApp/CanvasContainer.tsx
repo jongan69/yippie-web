@@ -126,7 +126,7 @@ const CanvasContainer = () => {
   }, []);
 
   React.useEffect(() => {
-    const interactionStart = 'ontouchend ' in window ? 'touchend' : 'mousedown';
+    const interactionStart = 'ontouchstart ' in window ? 'touchstart' : 'mousedown';
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener(interactionStart, handleInteractionStart);
 
