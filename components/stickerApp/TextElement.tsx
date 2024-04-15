@@ -55,7 +55,7 @@ const TextElement = (props: ICanvasComponent) => {
   };
 
   return (
-    <div>
+    <div style={{ touchAction: 'manipulation' }}>
       {isReadOnly ? (
         <div
           className="ql-editor"
