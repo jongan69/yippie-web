@@ -1,10 +1,11 @@
 "use client"
-import React, { forwardRef, useContext, useRef } from "react";
+import React, { forwardRef, useContext, useEffect, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
-import { resizeHandleClasses } from "../../lib/utils";
+import { getCircularReplacer, resizeHandleClasses } from "../../lib/utils";
 import { ImageElement } from "./ImageElement";
 import { TextElement } from "./TextElement";
+import { useDetectDevice } from "@/lib/useDevice";
 
 const componentMap: { [key: string]: React.ComponentType<ICanvasComponent> } = {
   TEXT: TextElement,
@@ -26,8 +27,20 @@ const getEnableResize = (type: string): any => {
   };
 };
 
+// interface for the new iterable headers object type
+interface IResult {
+  [key: string]: string
+}
+
 const CanvasComponent = (props: ICanvasComponent) => {
-  const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
+  // create a state object for the headers data of type IResult
+  const [isMobile, setIsMobile] = useState<IResult>({})
+  useEffect(() => {
+    // use the created hook to get the headers data
+    useDetectDevice().then((res: any) => setIsMobile(res.isMobile));
+
+  }, [])
+
   const { state, actions } = useContext(CanvasContext);
   const { dimension, position, content, id, type } = props;
   const [showGrids, setShowGrids] = React.useState(false);
@@ -136,6 +149,7 @@ const CanvasComponent = (props: ICanvasComponent) => {
   }
 
   const onDoubleClick = (event: { preventDefault: () => void; }) => {
+    alert(`isMobile: ${isMobile}`)
     if (!isReadOnly) return;
     if (isMobile) {
       event.preventDefault();
