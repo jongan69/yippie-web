@@ -65,7 +65,7 @@ const CanvasContainer = () => {
     new Set()
   );
   const [enableQuillToolbar, setEnableQuillToolbar] = useState<boolean>(false);
-
+  const [emojis, setEmojis] = useState<any>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const isSelectAll = useRef<boolean>(false);
 
@@ -78,8 +78,7 @@ const CanvasContainer = () => {
   };
 
   const resetCanvas = useCallback(() => {
-    // setEmojis([]);
-    // elementRef.current = null
+    setEmojis([]);
     setCanvasData([]); // Clear all canvas data
     setActiveSelection(new Set()); // Clear all selections
     setEnableQuillToolbar(false); // Optionally reset the toolbar state
@@ -166,12 +165,12 @@ const CanvasContainer = () => {
   return (
     <div ref={containerRef}>
       <CanvasContext.Provider value={context}>
-        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={context.actions ? context.actions.resetCanvas : null}/>
+        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={context.actions ? context.actions.resetCanvas : null} />
         <div className="canvas-container">
           {canvasData.map((canvas) => {
             return <CanvasComponent key={canvas.id} ref={canvasRef} {...canvas} />;
           })}
-          <EmojiList/>
+          <EmojiList emojis={emojis} setEmojis={setEmojis} />
         </div>
         {/* {JSON.stringify(canvasData)} */}
 
