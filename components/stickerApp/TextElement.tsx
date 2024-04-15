@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from "react";
+import React, { forwardRef, useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
 import "react-quill/dist/quill.snow.css";
@@ -23,33 +23,33 @@ if (Quill) {
 export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id, isReadOnly } = props;
   const { actions } = useContext(CanvasContext);
-  // const editorRef = useRef<any>(ref);
+  const [value, setValue] = useState('');
 
-  // useEffect(() => {
-  //   if (editorRef.current) {
-  //     editorRef.current.getEditor().on('selection-change', function (range: any) {
-  //       if (range) {
-  //         editorRef.current.focus();
-  //       }
-  //     });
-  //   }
-  // }, []);
-
-  const focusEditor = () => {
-    const editor = ref?.current;
-    if (editor) {
-      editor.focus(); // Focus the ReactQuill editor
-    }
-  };
-
-  const updateEditorValue = (value: string) => {
+  useEffect(() => {
     try {
-      if (actions) actions.updateCanvasData({ id, content: value });
-      else alert(JSON.stringify(actions))
+      if (actions && value) {
+        actions.updateCanvasData({ id, content: value });
+      } else console.log(JSON.stringify(actions))
     } catch (e) {
       alert(e)
     }
-  };
+  }, [actions, value, id]);
+
+  // const focusEditor = () => {
+  //   const editor = ref?.current;
+  //   if (editor) {
+  //     editor.focus(); // Focus the ReactQuill editor
+  //   }
+  // };
+
+  // const updateEditorValue = (value: string) => {
+  //   try {
+  //     if (actions) actions.updateCanvasData({ id, content: value });
+  //   else alert(JSON.stringify(actions))
+  // } catch (e) {
+  //   alert(e)
+  // }
+  // };
 
   const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
 
@@ -76,7 +76,7 @@ export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
           >
             {ReactHtmlParser(content || "")}
           </div>
-          {isMobile && <button onClick={focusEditor} style={{ marginTop: '10px' }}>Edit Text</button>}
+          {/* {isMobile && <button onClick={focusEditor} style={{ marginTop: '10px' }}>Edit Text</button>} */}
         </>
       ) : (
         <>
@@ -85,8 +85,8 @@ export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
             theme="snow"
             className="quill-container"
             modules={modules}
-            value={content}
-            onChange={updateEditorValue}
+            value={value}
+            onChange={setValue}
           />
         </>
       )}
