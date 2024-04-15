@@ -28,7 +28,7 @@
     "react-html-parser": "^2.0.2",
     "react-quill": "^2.0.0",
     "react-rnd": "^10.4.1",
-    "sharp": "^0.31.3",
+    "sharp": "^0.32.6",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6"
   },
