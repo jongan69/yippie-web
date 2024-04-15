@@ -21,7 +21,7 @@ if (Quill) {
 }
 
 export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
-  const { content, id, isReadOnly } = props;
+  const { isMobile, content, id, isReadOnly } = props;
   const { actions } = useContext(CanvasContext);
   const [value, setValue] = useState('');
 
@@ -51,7 +51,7 @@ export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   // }
   // };
 
-  const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
+  // const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
 
   const modules = {
     toolbar: isMobile ? [

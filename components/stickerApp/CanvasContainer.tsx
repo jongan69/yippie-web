@@ -4,6 +4,7 @@ import Toolbar from "./Toolbar";
 import SaveButton from "./SaveButton";
 import EmojiList from "./EmojiList";
 import { useTheme } from "next-themes";
+import { useDetectDevice } from "@/lib/useDevice";
 
 export const CanvasContext = React.createContext<ICanvasContext>({});
 
@@ -17,6 +18,7 @@ export interface ICanvasData {
 }
 
 export interface ICanvasComponent {
+  isMobile: boolean;
   ref?: any;
   position?: { top: number; left: number };
   dimension?: { width: string; height: string };
@@ -42,31 +44,21 @@ export interface ICanvasContext {
   };
 }
 
-// const getInitialData = (data: any[], type: string = "TEXT") => {
-//   return {
-//     type: type,
-//     id: `${type}__${Date.now()}__${data.length}`,
-//     position: {
-//       top: 100,
-//       left: 100
-//     },
-//     dimension: {
-//       width: "150",
-//       height: type === "TEXT" ? "50" : "150"
-//     },
-//     content: type === "TEXT" ? "Your Text" : ""
-//   };
-// };
 
 const CanvasContainer = () => {
   const { theme } = useTheme()
-  // const canvasRef = useRef(null);
   const [canvasData, setCanvasData] = useState<any>([]);
   const [activeSelection, setActiveSelection] = useState(new Set());
   const [enableQuillToolbar, setEnableQuillToolbar] = useState(false);
   const [emojis, setEmojis] = useState([]);
   const containerRef = useRef(null);
   const isSelectAll = useRef(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false)
+
+  React.useEffect(() => {
+    // use the created hook to get the headers data
+    useDetectDevice().then((res: any) => setIsMobile(res.isMobile ?? false));
+  }, [])
 
   const updateCanvasData = useCallback((data: any) => {
     const index = canvasData.findIndex((item: any) => item.id === data.id);
@@ -116,9 +108,9 @@ const CanvasContainer = () => {
   }, [deleteElement, selectAllElement]);
 
   const handleInteractionStart = useCallback((event: { type: string; preventDefault: () => void; }) => {
-    if (event.type.startsWith('touch')) {
-      event.preventDefault();
-    }
+    // if (event.type.startsWith('touch')) {
+    //   event.preventDefault();
+    // }
     if (!isSelectAll.current) {
       setActiveSelection(new Set());
     }
@@ -129,7 +121,6 @@ const CanvasContainer = () => {
     const interactionStart = 'ontouchstart ' in window ? 'touchstart' : 'mousedown';
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener(interactionStart, handleInteractionStart);
-
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener(interactionStart, handleInteractionStart);
@@ -145,9 +136,9 @@ const CanvasContainer = () => {
         <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} />
         <div className="canvas-container">
           {canvasData.map((canvas: React.JSX.IntrinsicAttributes & Omit<ICanvasComponent, "ref"> & React.RefAttributes<unknown>) => (
-            <CanvasComponent key={canvas.id} {...canvas} />
+            <CanvasComponent key={canvas.id} {...canvas} isMobile={isMobile}/>
           ))}
-          <EmojiList emojis={emojis} setEmojis={setEmojis} />
+          <EmojiList emojis={emojis} setEmojis={setEmojis}/>
         </div>
       </CanvasContext.Provider>
       <SaveButton elementRef={containerRef} />
