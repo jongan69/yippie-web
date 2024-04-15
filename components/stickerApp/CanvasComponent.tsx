@@ -25,7 +25,9 @@ const getEnableResize = (type: string): any => {
     right: true
   };
 };
+
 const CanvasComponent = (props: ICanvasComponent) => {
+  const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
   const { state, actions } = useContext(CanvasContext);
   const { dimension, position, content, id, type } = props;
   const [showGrids, setShowGrids] = React.useState(false);
@@ -50,7 +52,6 @@ const CanvasComponent = (props: ICanvasComponent) => {
       actions?.setActiveSelection(new Set(activeSelection));
     }
   };
-
 
   const getComponent = () => {
     const Component = type && componentMap[type];
@@ -100,7 +101,10 @@ const CanvasComponent = (props: ICanvasComponent) => {
       ? "showHandles"
       : "";
 
-  const onDoubleClick = () => {
+  const onDoubleClick = (event: { preventDefault: () => void; }) => {
+    if (isMobile) {
+      event.preventDefault();
+    }
     if (!isReadOnly) return;
     setIsReadOnly(false);
     actions?.setEnableQuillToolbar(true);
