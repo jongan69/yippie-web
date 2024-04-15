@@ -25,15 +25,15 @@ const TextElement = (props: ICanvasComponent) => {
   const { actions } = useContext(CanvasContext);
   const editorRef = useRef<any>(null);
 
-  // useEffect(() => {
-  //   if (editorRef.current) {
-  //     editorRef.current.getEditor().on('selection-change', function(range: any) {
-  //       if (range) {
-  //         editorRef.current.focus();
-  //       }
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getEditor().on('selection-change', function(range: any) {
+        if (range) {
+          editorRef.current.focus();
+        }
+      });
+    }
+  }, []);
 
   const updateEditorValue = (value: string) => {
     actions?.updateCanvasData({ id, content: value });
