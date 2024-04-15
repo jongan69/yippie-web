@@ -25,16 +25,29 @@ const TextElement = (props: ICanvasComponent) => {
   const { actions } = useContext(CanvasContext);
   const editorRef = useRef<any>(null);
 
-  useEffect(() => {
-    // Implement scaling or other post-render DOM manipulations here if necessary
-  }, []); // Ensure this runs only once after initial render on the client side
+  // useEffect(() => {
+  //   if (editorRef.current) {
+  //     editorRef.current.getEditor().on('selection-change', function(range: any) {
+  //       if (range) {
+  //         editorRef.current.focus();
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   const updateEditorValue = (value: string) => {
     actions?.updateCanvasData({ id, content: value });
   };
 
+  const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
+
   const modules = {
-    toolbar: "#toolbar"
+    toolbar: isMobile ? [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      ['clean']
+    ] : "#toolbar"
   };
 
   return (

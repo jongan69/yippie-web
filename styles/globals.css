@@ -644,3 +644,7 @@ img {
 a {
   color: #06c;
 }
+.ql-editor {
+  -webkit-user-select: text;
+  user-select: text;
+}
