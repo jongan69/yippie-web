@@ -136,7 +136,7 @@ const CanvasContainer = () => {
   }, [handleKeyDown, handleInteractionStart]);
 
   return (
-    <div ref={containerRef} style={{ backgroundColor: theme === "light" ? "black" : "white" }}>
+    <div ref={containerRef} style={{ backgroundColor: theme === "light" ? "white" : "black" }}>
       <CanvasContext.Provider value={{
         state: { canvasData, activeSelection, enableQuillToolbar },
         actions: { setCanvasData, setActiveSelection, updateCanvasData, addElement, setEnableQuillToolbar, resetCanvas }
