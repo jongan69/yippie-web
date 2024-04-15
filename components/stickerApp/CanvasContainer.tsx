@@ -117,6 +117,7 @@ const CanvasContainer = () => {
 
   const handleInteractionStart = useCallback((event: { type: string; preventDefault: () => void; }) => {
     alert(`Dev: ${event.type}`)
+    alert(`Dev 2: ${JSON.stringify(window)}`)
     if (event.type.startsWith('touch')) {
       event.preventDefault();
     }
