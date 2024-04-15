@@ -39,11 +39,18 @@ const ImageElement = (props: ICanvasComponent) => {
     }
   };
 
-  const triggerUpload = () => uploadRef.current?.click();
+  const triggerUpload = () => {
+    const element = uploadRef.current;
+    if (element) {
+      element.click(); // This triggers the file input
+    } else {
+      alert(`${element}`)
+    }
+  };
 
   const renderUploadContent = () => (
     <>
-      <div className="image-upload-container" onClick={triggerUpload}>
+      <div className="image-upload-container" onClick={triggerUpload} onTouchEnd={triggerUpload}>
         <div>Upload Image</div>
       </div>
       <input

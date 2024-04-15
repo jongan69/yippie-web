@@ -107,7 +107,6 @@ const CanvasComponent = forwardRef((props: ICanvasComponent) => {
 
   return (
     <div ref={elementRef}>
-      
       <Rnd
         style={style}
         size={{ width: dimension?.width || 0, height: dimension?.height || 0 }}
