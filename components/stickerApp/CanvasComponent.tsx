@@ -3,8 +3,8 @@ import React, { forwardRef, useContext, useRef } from "react";
 import { Rnd } from "react-rnd";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 import { resizeHandleClasses } from "../../lib/utils";
-import {ImageElement} from "./ImageElement";
-import {TextElement} from "./TextElement";
+import { ImageElement } from "./ImageElement";
+import { TextElement } from "./TextElement";
 
 const componentMap: { [key: string]: React.ComponentType<ICanvasComponent> } = {
   TEXT: TextElement,
@@ -36,6 +36,12 @@ const CanvasComponent = (props: ICanvasComponent) => {
   const isDragged = useRef<boolean>(false);
 
   const activeSelection = state?.activeSelection;
+
+  // Define the tap function
+  let doubletapDeltaTime_ = 300; // Adjust as necessary
+  let doubletap1Function_: Function | null = null;
+  let doubletap2Function_: Function | null = null;
+  let doubletapTimer_: ReturnType<typeof setTimeout> | null = null;
 
   const onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const toolbarElement = document.querySelector("#toolbar");
@@ -73,8 +79,8 @@ const CanvasComponent = (props: ICanvasComponent) => {
   const style: React.CSSProperties = {
     outline: "none",
     border: `2px solid ${(id && state?.activeSelection.has(id)) || showGrids || isDragged.current
-        ? "#21DEE5"
-        : "transparent"
+      ? "#21DEE5"
+      : "transparent"
       }`
   };
 
@@ -101,13 +107,57 @@ const CanvasComponent = (props: ICanvasComponent) => {
       ? "showHandles"
       : "";
 
+  // const onDoubleClick = (event: { preventDefault: () => void; }) => {
+  //   if (isMobile) {
+  //     event.preventDefault();
+  //   }
+  //   if (!isReadOnly) return;
+  //   setIsReadOnly(false);
+  //   actions?.setEnableQuillToolbar(true);
+  // };
+  function tap(singleTapFunc: Function, doubleTapFunc: Function) {
+    if (doubletapTimer_ === null) {
+      // First tap, we wait X ms to the second tap
+      doubletapTimer_ = setTimeout(doubletapTimeout_, doubletapDeltaTime_);
+      doubletap1Function_ = singleTapFunc;
+      doubletap2Function_ = doubleTapFunc;
+    } else {
+      // Second tap
+      clearTimeout(doubletapTimer_);
+      doubletapTimer_ = null;
+      doubletap2Function_!();
+    }
+  }
+
+  function doubletapTimeout_() {
+    // Wait for second tap timeout
+    doubletap1Function_!();
+    doubletapTimer_ = null;
+  }
+
   const onDoubleClick = (event: { preventDefault: () => void; }) => {
+    if (!isReadOnly) return;
     if (isMobile) {
       event.preventDefault();
+      // Implement double tap logic for mobile
+      tap(
+        function () {
+          // Single tap logic for mobile
+          // For example: 
+          setIsReadOnly(!isReadOnly);
+        },
+        function () {
+          // Double tap logic for mobile
+          // For example: 
+          setIsReadOnly(false); actions?.setEnableQuillToolbar(true);
+        }
+      );
+    } else {
+      // Implement double click logic for web
+      // For example: 
+      setIsReadOnly(!isReadOnly);
+      actions?.setEnableQuillToolbar(true);
     }
-    if (!isReadOnly) return;
-    setIsReadOnly(false);
-    actions?.setEnableQuillToolbar(true);
   };
 
   return (
