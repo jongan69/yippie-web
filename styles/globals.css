@@ -139,14 +139,20 @@ table {
 
 .quill-container {
   width: 100%;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .quill-container .ql-editor {
+  -webkit-user-select: text;
+  user-select: text;
   padding: 0;
 }
 
 .quill-container .ql-container {
   border: 0 !important;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .item-container {
@@ -643,8 +649,4 @@ img {
 }
 a {
   color: #06c;
-}
-.ql-editor {
-  -webkit-user-select: text;
-  user-select: text;
 }
