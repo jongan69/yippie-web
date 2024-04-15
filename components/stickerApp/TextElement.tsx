@@ -45,6 +45,7 @@ const TextElement = (props: ICanvasComponent) => {
   const updateEditorValue = (value: string) => {
     try {
       if (actions) actions.updateCanvasData({ id, content: value });
+      else alert(JSON.stringify(actions))
     } catch (e) {
       alert(e)
     }
