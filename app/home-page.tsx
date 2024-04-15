@@ -3,7 +3,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
 import dynamic from 'next/dynamic'
-const ParentComponent = dynamic(() => import('../components/stickerApp/CanvasContainer').then((mod: any) => mod.CanvasContainer), {
+const ParentComponent = dynamic(() => import('../components/stickerApp/CanvasContainer'), {
   ssr: false,
 })
 
