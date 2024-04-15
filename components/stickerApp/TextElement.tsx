@@ -35,6 +35,13 @@ const TextElement = (props: ICanvasComponent) => {
     }
   }, []);
 
+  const focusEditor = () => {
+    const editor = editorRef.current;
+    if (editor) {
+      editor.focus(); // Focus the ReactQuill editor
+    }
+  };
+
   const updateEditorValue = (value: string) => {
     try {
       if (actions) actions.updateCanvasData({ id, content: value });
@@ -57,26 +64,31 @@ const TextElement = (props: ICanvasComponent) => {
   return (
     <div style={{ touchAction: 'manipulation' }}>
       {isReadOnly ? (
-        <div
-          className="ql-editor"
-          style={{
-            fontFamily: "Arial",
-            fontSize: "13px",
-            padding: 0
-          }}
-        >
-          {ReactHtmlParser(content || "")}
-        </div>
+        <>
+          <div
+            className="ql-editor"
+            style={{
+              fontFamily: "Arial",
+              fontSize: "13px",
+              padding: 0
+            }}
+          >
+            {ReactHtmlParser(content || "")}
+          </div>
+          {/* <button onClick={focusEditor} style={{ padding: '10px' }}>Edit Text</button> */}
+        </>
       ) : (
-        <ReactQuill
-          ref={editorRef}
-          readOnly={isReadOnly}
-          theme="snow"
-          className="quill-container"
-          modules={modules}
-          value={content}
-          onChange={updateEditorValue}
-        />
+        <>
+          <ReactQuill
+            ref={editorRef}
+            readOnly={isReadOnly}
+            theme="snow"
+            className="quill-container"
+            modules={modules}
+            value={content}
+            onChange={updateEditorValue}
+          />
+        </>
       )}
     </div>
   );

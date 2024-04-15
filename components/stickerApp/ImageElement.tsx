@@ -34,7 +34,7 @@ const ImageElement = (props: ICanvasComponent) => {
         const { calcWidth, calcHeight } = getAdjustedDimensions(imageDimensions.nw, imageDimensions.nh, 150);
         actions?.updateCanvasData({ id, content: base64, dimension: { width: `${calcWidth}`, height: `${calcHeight}` } });
       } catch (error) {
-        alert(`Error uploading image: ${error}`);
+        alert(`Error uploading image: ${JSON.stringify(error)}`);
       }
     }
   };
@@ -58,7 +58,7 @@ const ImageElement = (props: ICanvasComponent) => {
         type="file"
         id="imageFile"
         name="imageFile"
-        accept="image/jpeg, image/png"
+        accept="image/*"
         onChange={imageUpload}
         style={{ display: 'none' }}
       />
