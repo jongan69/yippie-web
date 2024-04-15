@@ -62,7 +62,7 @@ const TextElement = (props: ICanvasComponent) => {
   };
 
   return (
-    <div style={{ touchAction: 'manipulation' }}>
+    <div>
       {isReadOnly ? (
         <>
           <div
