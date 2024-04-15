@@ -1,7 +1,8 @@
 import React, { forwardRef, useContext, useRef } from "react";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 
-const ImageElement = forwardRef((props: ICanvasComponent, ref: any) => {
+
+export const ImageElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id } = props;
   const { actions } = useContext(CanvasContext);
   const uploadRef = useRef<HTMLInputElement>(null);
@@ -81,4 +82,4 @@ const ImageElement = forwardRef((props: ICanvasComponent, ref: any) => {
   return <>{!content ? renderUploadContent() : renderImage()}</>;
 });
 
-export default ImageElement;
+ImageElement.displayName = 'CanvasComponent';

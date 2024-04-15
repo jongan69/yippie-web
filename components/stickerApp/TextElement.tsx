@@ -20,7 +20,7 @@ if (Quill) {
   Quill.register({ 'formats/size': Size, 'formats/font': Font }, true);
 }
 
-const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
+export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id, isReadOnly } = props;
   const { actions } = useContext(CanvasContext);
   // const editorRef = useRef<any>(ref);
@@ -94,4 +94,4 @@ const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   );
 });
 
-export default TextElement;
+TextElement.displayName = 'CanvasComponent';

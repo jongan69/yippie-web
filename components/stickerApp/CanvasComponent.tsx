@@ -3,8 +3,8 @@ import React, { forwardRef, useContext, useRef } from "react";
 import { Rnd } from "react-rnd";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 import { resizeHandleClasses } from "../../lib/utils";
-import ImageElement from "./ImageElement";
-import TextElement from "./TextElement";
+import {ImageElement} from "./ImageElement";
+import {TextElement} from "./TextElement";
 
 const componentMap: { [key: string]: React.ComponentType<ICanvasComponent> } = {
   TEXT: TextElement,
@@ -148,4 +148,3 @@ const CanvasComponent = (props: ICanvasComponent) => {
 };
 
 export default CanvasComponent;
-// // CanvasComponent.displayName = 'CanvasComponent';
