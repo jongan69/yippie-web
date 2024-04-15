@@ -116,6 +116,7 @@ const CanvasContainer = () => {
   }, [deleteElement, selectAllElement]);
 
   const handleInteractionStart = useCallback((event: { type: string; preventDefault: () => void; }) => {
+    alert(`Dev: ${event.type}`)
     if (event.type.startsWith('touch')) {
       event.preventDefault();
     }
@@ -125,7 +126,7 @@ const CanvasContainer = () => {
   }, []);
 
   React.useEffect(() => {
-    const interactionStart = 'ontouch' in window ? 'touchstart' : 'mousedown';
+    const interactionStart = 'onTouchEnd ' in window ? 'touchend' : 'mousedown';
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener(interactionStart, handleInteractionStart);
 
