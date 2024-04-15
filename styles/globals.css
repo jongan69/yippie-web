@@ -139,8 +139,6 @@ table {
 
 .quill-container {
   width: 100%;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 .quill-container .ql-editor {
@@ -151,8 +149,6 @@ table {
 
 .quill-container .ql-container {
   border: 0 !important;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 .item-container {
