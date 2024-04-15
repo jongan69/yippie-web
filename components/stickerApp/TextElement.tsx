@@ -35,12 +35,12 @@ const TextElement = (props: ICanvasComponent) => {
   //   }
   // }, []);
 
-  // const focusEditor = () => {
-  //   const editor = editorRef.current;
-  //   if (editor) {
-  //     editor.focus(); // Focus the ReactQuill editor
-  //   }
-  // };
+  const focusEditor = () => {
+    const editor = editorRef.current;
+    if (editor) {
+      editor.focus(); // Focus the ReactQuill editor
+    }
+  };
 
   const updateEditorValue = (value: string) => {
     try {
@@ -76,7 +76,7 @@ const TextElement = (props: ICanvasComponent) => {
           >
             {ReactHtmlParser(content || "")}
           </div>
-          {/* <button onClick={focusEditor} style={{ padding: '10px' }}>Edit Text</button> */}
+          {isMobile && <button onClick={focusEditor} style={{ padding: '10px' }}>Edit Text</button>}
         </>
       ) : (
         <>
