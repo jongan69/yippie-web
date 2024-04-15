@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import CanvasComponent from "./CanvasComponent";
 import Toolbar from "./Toolbar";
 import SaveButton from "./SaveButton";
+import EmojiList from "./EmojiList";
 
 export const CanvasContext = React.createContext<ICanvasContext>({});
 
@@ -15,6 +16,7 @@ export interface ICanvasData {
 }
 
 export interface ICanvasComponent {
+  ref?: any;
   position?: { top: number; left: number };
   dimension?: { width: string; height: string };
   content?: string;
@@ -169,8 +171,10 @@ const CanvasContainer = () => {
           {canvasData.map((canvas) => {
             return <CanvasComponent key={canvas.id} ref={canvasRef} {...canvas} />;
           })}
+          <EmojiList/>
         </div>
         {/* {JSON.stringify(canvasData)} */}
+
 
       </CanvasContext.Provider>
       <SaveButton elementRef={containerRef} />

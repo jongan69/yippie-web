@@ -15,6 +15,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@types/react-dropzone": "^5.1.0",
+    "@types/react-html-parser": "^2.0.6",
     "@types/react-rnd": "^8.0.0",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",

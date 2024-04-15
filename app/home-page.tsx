@@ -1,26 +1,13 @@
 "use client"
 import Link from "next/link";
-// import { useRef } from "react";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
-// import { ImageEditor } from "../components/stickerApp/sticker-adder";
-// import dynamic from 'next/dynamic'
-// const ImageEditor = dynamic(() => import('../components/stickerApp/sticker-adder').then((mod: any) => mod.ImageEditor), {
-//   ssr: false,
-// })
+import dynamic from 'next/dynamic'
+const ParentComponent = dynamic(() => import('../components/stickerApp/CanvasContainer').then((mod: any) => mod.CanvasContainer), {
+  ssr: false,
+})
 
-import ParentComponent from '../components/stickerApp/CanvasContainer'
 export default function IndexPage() {
-  // const canvasRef = useRef<any>(null);
-
-  // const saveCanvas = () => {
-  //   if (canvasRef.current) {
-  //     const link = document.createElement('a');
-  //     link.download = 'canvas_image.png';
-  //     link.href = canvasRef.current.toDataURL("image/png");
-  //     link.click();
-  //   }
-  // };
 
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
@@ -42,7 +29,7 @@ export default function IndexPage() {
         </Link>
       </div>
       <div className="flex justify-center gap-4">
-        
+
         {/* <button onClick={saveCanvas} style={{ margin: 10 }}>Save Image</button> */}
         {/* <button onClick={() => canvasRef.current && canvasRef.current.saveCanvas()} style={{ margin: 10 }}>Save Image</button> */}
       </div>
