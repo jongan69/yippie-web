@@ -3,7 +3,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
 import dynamic from 'next/dynamic'
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDetectDevice } from "@/lib/useDevice";
 const ParentComponent = dynamic(() => import('../components/stickerApp/CanvasContainer'), {
   ssr: false,
@@ -13,8 +13,10 @@ export default function IndexPage() {
   // Using useState hook to manage the mobile state
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const deviceData = useDetectDevice()
-  const getData = async () => { return setIsMobile(deviceData.isMobileRes) }
-
+  const getData = useCallback(async () => {
+    return setIsMobile(deviceData.isMobileRes);
+  }, [deviceData.isMobileRes]);
+  
   useEffect(() => {
     getData()
   }, [deviceData, getData])
