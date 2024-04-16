@@ -13,7 +13,7 @@ export default function IndexPage() {
   // Using useState hook to manage the mobile state
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const deviceData = useDetectDevice()
-  const getData = async () => { return setIsMobile((await deviceData).isMobileRes) }
+  const getData = async () => { return setIsMobile(deviceData.isMobileRes) }
 
   useEffect(() => {
     getData()

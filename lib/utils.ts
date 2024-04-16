@@ -18,7 +18,7 @@ export const resizeHandleClasses = {
 
 export function getCircularReplacer(this: any) {
   const ancestors: any[] = [];
-  return  (key: any, value: null) => {
+  return (key: any, value: null) => {
     if (typeof value !== "object" || value === null) {
       return value;
     }
@@ -35,3 +35,14 @@ export function getCircularReplacer(this: any) {
   };
 }
 
+export const logSubmit = async (data: any) => {
+  try {
+    return await fetch('/api/logger', {
+      method: 'POST',
+      body: data,
+    }).then((dataRes) => dataRes.json());
+  } catch (error) {
+    console.error('Error:', error);
+    return error
+  }
+};

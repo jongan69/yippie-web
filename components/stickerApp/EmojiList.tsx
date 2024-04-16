@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Rnd } from "react-rnd";
 
 const EmojiList = ({ emojis, setEmojis }: any) => {

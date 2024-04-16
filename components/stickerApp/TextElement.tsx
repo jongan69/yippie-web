@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useState } from "react";
+import React, { forwardRef, useContext } from "react";
 import dynamic from "next/dynamic";
 import ReactHtmlParser from "react-html-parser";
 import "react-quill/dist/quill.snow.css";
@@ -23,35 +23,10 @@ if (Quill) {
 export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { isMobile, content, id, isReadOnly } = props;
   const { actions } = useContext(CanvasContext);
-  const [value, setValue] = useState('');
 
-  useEffect(() => {
-    try {
-      if (actions && value) {
-        actions.updateCanvasData({ id, content: value });
-      } else console.log(JSON.stringify(actions))
-    } catch (e) {
-      alert(e)
-    }
-  }, [actions, value, id]);
-
-  // const focusEditor = () => {
-  //   const editor = ref?.current;
-  //   if (editor) {
-  //     editor.focus(); // Focus the ReactQuill editor
-  //   }
-  // };
-
-  // const updateEditorValue = (value: string) => {
-  //   try {
-  //     if (actions) actions.updateCanvasData({ id, content: value });
-  //   else alert(JSON.stringify(actions))
-  // } catch (e) {
-  //   alert(e)
-  // }
-  // };
-
-  // const isMobile = window.innerWidth < 768; // Adjust breakpoint as necessary
+  const updateEditorValue = (value: string) => {
+    actions?.updateCanvasData({ id, content: value });
+  };
 
   const modules = {
     toolbar: isMobile ? [
@@ -65,19 +40,16 @@ export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
   return (
     <div ref={ref}>
       {isReadOnly ? (
-        <>
-          <div
-            className="ql-editor"
-            style={{
-              fontFamily: "Arial",
-              fontSize: "13px",
-              padding: 0
-            }}
-          >
-            {ReactHtmlParser(content || "")}
-          </div>
-          {/* {isMobile && <button onClick={focusEditor} style={{ marginTop: '10px' }}>Edit Text</button>} */}
-        </>
+        <div
+          className="ql-editor"
+          style={{
+            fontFamily: "Arial",
+            fontSize: "13px",
+            padding: 0
+          }}
+        >
+          {ReactHtmlParser(content || "")}
+        </div>
       ) : (
         <>
           <ReactQuill
@@ -85,8 +57,8 @@ export const TextElement = forwardRef((props: ICanvasComponent, ref: any) => {
             theme="snow"
             className="quill-container"
             modules={modules}
-            value={value}
-            onChange={setValue}
+            value={content}
+            onChange={updateEditorValue}
           />
         </>
       )}

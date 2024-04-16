@@ -1,4 +1,4 @@
-"use client"
+
 import React, { useContext, useRef } from "react";
 import { Rnd } from "react-rnd";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
@@ -37,12 +37,6 @@ const CanvasComponent = (props: ICanvasComponent) => {
   const isDragged = useRef<boolean>(false);
 
   const activeSelection = state?.activeSelection;
-
-  // Define the tap function
-  let doubletapDeltaTime_ = 300; // Adjust as necessary
-  let doubletap1Function_: Function | null = null;
-  let doubletap2Function_: Function | null = null;
-  let doubletapTimer_: ReturnType<typeof setTimeout> | null = null;
 
   const onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const toolbarElement = document.querySelector("#toolbar");
@@ -109,78 +103,44 @@ const CanvasComponent = (props: ICanvasComponent) => {
       ? "showHandles"
       : "";
 
-  // const onDoubleClick = (event: { preventDefault: () => void; }) => {
-  //   if (isMobile) {
-  //     event.preventDefault();
-  //   }
-  //   if (!isReadOnly) return;
-  //   setIsReadOnly(false);
-  //   actions?.setEnableQuillToolbar(true);
-  // };
-  function tap(singleTapFunc: Function, doubleTapFunc: Function) {
-    if (doubletapTimer_ === null) {
-      // First tap, we wait X ms to the second tap
-      doubletapTimer_ = setTimeout(doubletapTimeout_, doubletapDeltaTime_);
-      doubletap1Function_ = singleTapFunc;
-      doubletap2Function_ = doubleTapFunc;
-    } else {
-      // Second tap
-      clearTimeout(doubletapTimer_);
-      doubletapTimer_ = null;
-      doubletap2Function_!();
-    }
-  }
-
-  function doubletapTimeout_() {
-    // Wait for second tap timeout
-    doubletap1Function_!();
-    doubletapTimer_ = null;
-  }
-
-  const onDoubleClick = (event: { preventDefault: () => void; }) => {
-    
+  const onDoubleClick = () => {
     if (!isReadOnly) return;
-    alert(`isMobile: ${isMobile}`)
+    setIsReadOnly(false);
+    actions?.setEnableQuillToolbar(true);
+  };
+
+  const handleClick = (event: any) => {
     if (isMobile) {
       event.preventDefault();
-      // Implement double tap logic for mobile
-      tap(
-        function () {
-          // Single tap logic for mobile
-          // For example: 
-          setIsReadOnly(!isReadOnly);
-        },
-        function () {
-          // Double tap logic for mobile
-          // For example: 
-          setIsReadOnly(false); actions?.setEnableQuillToolbar(true);
-        }
-      );
+      // For mobile devices, use onGotPointerCapture
+      elementRef.current?.setPointerCapture(1);
     } else {
-      // Implement double click logic for web
-      // For example: 
-      setIsReadOnly(!isReadOnly);
-      actions?.setEnableQuillToolbar(true);
+      // For desktop, use onClick
+      onDoubleClick();
     }
+  };
+
+  const onGotPointerCapture = () => {
+    setIsReadOnly(false);
+    if (!isReadOnly) actions?.setEnableQuillToolbar(true);
   };
 
   return (
     <div ref={elementRef}>
       <Rnd
-        enableUserSelectHack={false}
         style={style}
         size={{ width: dimension?.width || 0, height: dimension?.height || 0 }}
         position={{ x: position?.left || 0, y: position?.top || 0 }}
         onDragStart={() => {
           isDragged.current = true;
         }}
-        onDragStop={(e: any, d: { x: any; y: any; }) => {
+        onDragStop={(_e: any, d: { x: any; y: any; }) => {
           isDragged.current = false;
           actions?.updateCanvasData({ id, position: { left: d.x, top: d.y } });
         }}
         resizeHandleWrapperClass={handleClass}
         resizeHandleClasses={resizeHandleClasses}
-        onResize={(e: any, direction: any, ref: { style: { width: any; height: any; }; }, delta: any, position: { y: any; x: any; }) => {
+        onResize={(_e: any, _direction: any, ref: { style: { width: any; height: any; }; }, _delta: any, position: { y: any; x: any; }) => {
           actions?.updateCanvasData({
             id,
             dimension: { width: ref.style.width, height: ref.style.height },
@@ -194,11 +154,13 @@ const CanvasComponent = (props: ICanvasComponent) => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onDoubleClick={onDoubleClick}
+        onClick={handleClick} // Use onClick for desktop
         onKeyDown={onKeyDown}
         onFocus={onfocus}
         onBlur={onBlur}
         tabIndex={0}
         lockAspectRatio={type === "IMAGE"}
+        onGotPointerCapture={onGotPointerCapture} // Use onGotPointerCapture for mobile
       >
         <div className="item-container">{getComponent()}</div>
       </Rnd>

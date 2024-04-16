@@ -4,7 +4,6 @@ import Toolbar from "./Toolbar";
 import SaveButton from "./SaveButton";
 import EmojiList from "./EmojiList";
 import { useTheme } from "next-themes";
-import { useDetectDevice } from "@/lib/useDevice";
 
 export const CanvasContext = React.createContext<ICanvasContext>({});
 
@@ -74,8 +73,8 @@ const CanvasContainer = (props: { isMobile: boolean; }) => {
       type,
       id: `${type}__${Date.now()}__${canvasData.length}`,
       position: { top: 100, left: 100 },
-      dimension: { width: "150", height: type === "TEXT" ? "50" : "150" },
-      content: type === "TEXT" ? "Your Text" : ""
+      dimension: { width: "150", height: type === "TEXT" ? "200" : "150" },
+      content: type === "TEXT" ? "Press to edit" : ""
     };
     setCanvasData([...canvasData, newElement]);
     setActiveSelection(new Set([newElement.id]));
@@ -101,25 +100,27 @@ const CanvasContainer = (props: { isMobile: boolean; }) => {
     }
   }, [deleteElement, selectAllElement]);
 
-  const handleInteractionStart = useCallback((event: { type: string; preventDefault: () => void; }) => {
-    // if (event.type.startsWith('touch')) {
-    //   event.preventDefault();
-    // }
+  const outSideClickHandler = () => {
+    isSelectAll.current = false;
+    setActiveSelection(new Set());
+  };
+
+  const handleMouseDown = useCallback(() => {
     if (!isSelectAll.current) {
-      setActiveSelection(new Set());
+      return;
     }
+    outSideClickHandler();
+    isSelectAll.current = false;
   }, []);
 
   React.useEffect(() => {
-    // console.log(window)
-    const interactionStart = 'ontouchstart ' in window ? 'touchstart' : 'mousedown';
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener(interactionStart, handleInteractionStart);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleMouseDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener(interactionStart, handleInteractionStart);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [handleKeyDown, handleInteractionStart]);
+  }, [handleKeyDown, handleMouseDown]);
 
   return (
     <div ref={containerRef} style={{ backgroundColor: theme === "light" ? "white" : "black" }}>

@@ -21,9 +21,8 @@ export const useDetectDevice = (): DetectDeviceResponse => {
         const response = await fetch('/api/deviceType');
         const data = await response.json();
 
-        const isMobileRes = data.userAgent?.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i) ?? false;
+        const isMobileRes = data.userAgent ? /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(data.userAgent) : false;
         console.log(`IsMobile: ${isMobileRes}`);
-
         setDetectData({ data, isMobileRes });
       } catch (error) {
         console.log('Error: ', error);
