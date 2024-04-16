@@ -47,7 +47,7 @@ export default function Toolbar({ isEditEnable, resetCanvas, isMobile }: IToolba
   const addElement = (type: string) => {
     actions?.addElement(type);
   };
-  
+
   return (
     <div style={{ display: "flex" }}>
       {isEditEnable && !isMobile && (
@@ -71,11 +71,14 @@ export default function Toolbar({ isEditEnable, resetCanvas, isMobile }: IToolba
         </div>
       )}
       <div className="toolbar-item" onClick={() => addElement("TEXT")}>
-        T
+        Add Text
       </div>
       <div className="toolbar-item" onClick={() => addElement("IMAGE")}>
-        I
+        Add Image
       </div>
+      {!isMobile && <div className="toolbar-item" onClick={() => addElement("DRAW")}>
+        Draw
+      </div>}
       <div className="toolbar-item" onClick={resetCanvas}>
         R
       </div>

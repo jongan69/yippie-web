@@ -5,10 +5,12 @@ import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 import { resizeHandleClasses } from "../../lib/utils";
 import { ImageElement } from "./ImageElement";
 import { TextElement } from "./TextElement";
+import { DrawingComponent } from './DrawingComponent'
 
 const componentMap: { [key: string]: React.ComponentType<ICanvasComponent> } = {
   TEXT: TextElement,
-  IMAGE: ImageElement
+  IMAGE: ImageElement,
+  DRAW: DrawingComponent
 };
 
 const getEnableResize = (type: string): any => {
@@ -16,17 +18,13 @@ const getEnableResize = (type: string): any => {
     bottom: type === "IMAGE",
     bottomLeft: true,
     bottomRight: true,
-
     top: type === "IMAGE",
     topLeft: true,
     topRight: true,
-
     left: true,
     right: true
   };
 };
-
-
 
 const CanvasComponent = (props: ICanvasComponent) => {
   const { state, actions } = useContext(CanvasContext);
@@ -104,7 +102,7 @@ const CanvasComponent = (props: ICanvasComponent) => {
       : "";
 
   const onDoubleClick = () => {
-    if (!isReadOnly) return;
+    if (!isReadOnly || type === "DRAW") return;
     setIsReadOnly(false);
     actions?.setEnableQuillToolbar(true);
   };
@@ -158,7 +156,7 @@ const CanvasComponent = (props: ICanvasComponent) => {
         onFocus={onfocus}
         onBlur={onBlur}
         tabIndex={0}
-        lockAspectRatio={type === "IMAGE"}
+        lockAspectRatio={type === "IMAGE" || "DRAW"}
         onGotPointerCapture={onGotPointerCapture} // Use onGotPointerCapture for mobile
       >
         <div className="item-container">{getComponent()}</div>

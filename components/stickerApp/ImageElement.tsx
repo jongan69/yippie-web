@@ -1,7 +1,6 @@
 import React, { forwardRef, useContext, useRef } from "react";
 import { CanvasContext, ICanvasComponent } from "./CanvasContainer";
 
-
 export const ImageElement = forwardRef((props: ICanvasComponent, ref: any) => {
   const { content, id } = props;
   const { actions } = useContext(CanvasContext);

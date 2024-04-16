@@ -10,7 +10,7 @@ const SaveButton = ({ elementRef }: any) => {
       html2canvas(element).then((canvas) => {
         const image = canvas.toDataURL("image/png");
         const link = document.createElement('a');
-        link.download = 'canvas-image.png';
+        link.download = 'yippie.png';
         link.href = image;
         link.click();
       });

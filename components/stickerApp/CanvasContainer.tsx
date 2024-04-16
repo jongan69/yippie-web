@@ -40,6 +40,7 @@ export interface ICanvasContext {
     addElement: (type: string) => void;
     setEnableQuillToolbar: (state: boolean) => void;
     resetCanvas?: () => void;
+
   };
 }
 
@@ -63,9 +64,9 @@ const CanvasContainer = (props: { isMobile: boolean; }) => {
 
   const resetCanvas = useCallback(() => {
     setEmojis([]);
-    setCanvasData([]);
-    setActiveSelection(new Set());
-    setEnableQuillToolbar(false);
+    setCanvasData([]); // Clear all canvas data
+    setActiveSelection(new Set()); // Clear all selections
+    setEnableQuillToolbar(false); // Optionally reset the toolbar state
   }, []);
 
   const addElement = useCallback((type: string) => {
@@ -128,12 +129,12 @@ const CanvasContainer = (props: { isMobile: boolean; }) => {
         state: { canvasData, activeSelection, enableQuillToolbar },
         actions: { setCanvasData, setActiveSelection, updateCanvasData, addElement, setEnableQuillToolbar, resetCanvas }
       }}>
-        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} isMobile={props.isMobile}/>
+        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} isMobile={props.isMobile} />
         <div className="canvas-container">
           {canvasData.map((canvas: React.JSX.IntrinsicAttributes & Omit<ICanvasComponent, "ref"> & React.RefAttributes<unknown>) => (
-            <CanvasComponent key={canvas.id} {...canvas} isMobile={props.isMobile}/>
+            <CanvasComponent key={canvas.id} {...canvas} isMobile={props.isMobile} />
           ))}
-          <EmojiList emojis={emojis} setEmojis={setEmojis}/>
+          <EmojiList emojis={emojis} setEmojis={setEmojis} />
         </div>
       </CanvasContext.Provider>
       <SaveButton elementRef={containerRef} />
