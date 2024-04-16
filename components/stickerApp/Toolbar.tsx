@@ -39,18 +39,20 @@ export const fontList = [
 interface IToolbarProps {
   isEditEnable: boolean;
   resetCanvas?: any
+  isMobile?: boolean
 }
 
-export default function Toolbar({ isEditEnable, resetCanvas }: IToolbarProps) {
+export default function Toolbar({ isEditEnable, resetCanvas, isMobile }: IToolbarProps) {
   const { actions } = useContext(CanvasContext);
   const addElement = (type: string) => {
     actions?.addElement(type);
   };
+  
   return (
     <div style={{ display: "flex" }}>
-      {isEditEnable && (
+      {isEditEnable && !isMobile && (
         <div id="toolbar">
-          <select className="ql-font">
+          <select className="ql-font" >
             {fontList.map((font, index) => (
               <option key={index} value={font}>{font}</option>
             ))}

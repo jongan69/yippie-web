@@ -14,7 +14,6 @@ const EmojiList = ({ emojis, setEmojis }: any) => {
     '/assets/emoji6.png',
     '/assets/emoji7.png',
     '/assets/emoji9.png',
-    
     // Add more emoji paths as needed
   ];
 

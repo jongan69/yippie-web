@@ -128,7 +128,7 @@ const CanvasContainer = (props: { isMobile: boolean; }) => {
         state: { canvasData, activeSelection, enableQuillToolbar },
         actions: { setCanvasData, setActiveSelection, updateCanvasData, addElement, setEnableQuillToolbar, resetCanvas }
       }}>
-        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} />
+        <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} isMobile={props.isMobile}/>
         <div className="canvas-container">
           {canvasData.map((canvas: React.JSX.IntrinsicAttributes & Omit<ICanvasComponent, "ref"> & React.RefAttributes<unknown>) => (
             <CanvasComponent key={canvas.id} {...canvas} isMobile={props.isMobile}/>

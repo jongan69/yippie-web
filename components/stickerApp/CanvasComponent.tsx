@@ -111,7 +111,6 @@ const CanvasComponent = (props: ICanvasComponent) => {
 
   const handleClick = (event: any) => {
     if (isMobile) {
-      event.preventDefault();
       // For mobile devices, use onGotPointerCapture
       elementRef.current?.setPointerCapture(1);
     } else {
