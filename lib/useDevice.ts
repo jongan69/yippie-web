@@ -1,15 +1,38 @@
-export const useDetectDevice = () => {
-  const res = fetch('/api/deviceType')
-    .then(async result => {
-      const data = await result.json();
-      const isMobile = data.userAgent!.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i) ?? false
-      console.log(`IsMobile: ${isMobile}`)
-      return { data, isMobile };
-    })
-    .catch(err => {
-      console.log('Error: ', err);
-      return {}
-    })
+import { useEffect, useState } from 'react';
 
-  return res;
+interface DeviceData {
+  userAgent?: string;
 }
+
+interface DetectDeviceResponse {
+  data: DeviceData | unknown;
+  isMobileRes: boolean;
+}
+
+export const useDetectDevice = (): DetectDeviceResponse => {
+  const [detectData, setDetectData] = useState<DetectDeviceResponse>({
+    data: {},
+    isMobileRes: false,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/deviceType');
+        const data = await response.json();
+
+        const isMobileRes = data.userAgent?.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i) ?? false;
+        console.log(`IsMobile: ${isMobileRes}`);
+
+        setDetectData({ data, isMobileRes });
+      } catch (error) {
+        console.log('Error: ', error);
+        setDetectData({ data: error, isMobileRes: false });
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs only once, similar to componentDidMount
+
+  return detectData;
+};

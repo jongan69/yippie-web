@@ -45,7 +45,7 @@ export interface ICanvasContext {
 }
 
 
-const CanvasContainer = () => {
+const CanvasContainer = (props: { isMobile: boolean; }) => {
   const { theme } = useTheme()
   const [canvasData, setCanvasData] = useState<any>([]);
   const [activeSelection, setActiveSelection] = useState(new Set());
@@ -53,12 +53,6 @@ const CanvasContainer = () => {
   const [emojis, setEmojis] = useState([]);
   const containerRef = useRef(null);
   const isSelectAll = useRef(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false)
-
-  React.useEffect(() => {
-    // use the created hook to get the headers data
-    useDetectDevice().then((res: any) => setIsMobile(res.isMobile ?? false));
-  }, [])
 
   const updateCanvasData = useCallback((data: any) => {
     const index = canvasData.findIndex((item: any) => item.id === data.id);
@@ -136,7 +130,7 @@ const CanvasContainer = () => {
         <Toolbar isEditEnable={enableQuillToolbar} resetCanvas={resetCanvas} />
         <div className="canvas-container">
           {canvasData.map((canvas: React.JSX.IntrinsicAttributes & Omit<ICanvasComponent, "ref"> & React.RefAttributes<unknown>) => (
-            <CanvasComponent key={canvas.id} {...canvas} isMobile={isMobile}/>
+            <CanvasComponent key={canvas.id} {...canvas} isMobile={props.isMobile}/>
           ))}
           <EmojiList emojis={emojis} setEmojis={setEmojis}/>
         </div>
